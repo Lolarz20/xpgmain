@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class BannerWidget extends StatefulWidget {
   const BannerWidget({super.key});
@@ -9,9 +10,9 @@ class BannerWidget extends StatefulWidget {
 
 class _BannerWidgetState extends State<BannerWidget> {
   final List<String> images = [
-    'assets/slide_3.jpg',
-    'assets/slide_1.jpg',
-    'assets/slide_2.jpg',
+    'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fslide_1.jpg?alt=media&token=598973e4-31f2-4a3c-9029-860a27cd622c',
+    'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fslide_2.jpg?alt=media&token=81721428-f943-45cb-a7c1-f1d1d3f01076',
+    'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fslide_3.jpg?alt=media&token=25cebf91-2275-4ff0-a6f8-62f1713c491d',
   ];
 
   int currentIndex = 0;
@@ -40,8 +41,27 @@ class _BannerWidgetState extends State<BannerWidget> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.network(
-              images[currentIndex],
+            child: Image(
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return Center(
+                    child: LoadingIndicator(
+                        indicatorType: Indicator.squareSpin,
+                        colors: const [Colors.grey],
+                        strokeWidth: 2,
+                        backgroundColor: Colors.black,
+                        pathBackgroundColor: Colors.black));
+              },
+              errorBuilder: (context, error, stackTrace) {
+                return Center(
+                  child: Icon(
+                    Icons.broken_image,
+                    size: 48,
+                    color: Colors.red,
+                  ),
+                );
+              },
+              image: NetworkImage(images[currentIndex]),
               fit: BoxFit.cover,
               width: width * 0.825,
               height: height * 0.8,

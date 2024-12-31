@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'main_screen.dart';
+import 'package:go_router/go_router.dart';
+import 'package:loading_indicator/loading_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TopWidget extends StatelessWidget {
   const TopWidget({super.key});
@@ -20,16 +21,38 @@ class TopWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image(
-                      image: AssetImage('assets/xpg.png'),
-                      height: height * 0.075),
+                  TextButton(
+                    onPressed: () {
+                      context.go('/');
+                    },
+                    child: Image(
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Center(
+                              child: LoadingIndicator(
+                                  indicatorType: Indicator.squareSpin,
+                                  colors: const [Colors.grey],
+                                  strokeWidth: 2,
+                                  backgroundColor: Colors.black,
+                                  pathBackgroundColor: Colors.black));
+                        },
+                        errorBuilder: (context, error, stackTrace) {
+                          return Center(
+                            child: Icon(
+                              Icons.broken_image,
+                              size: 48,
+                              color: Colors.red,
+                            ),
+                          );
+                        },
+                        image: NetworkImage(
+                            'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fxpg.png?alt=media&token=c2c3a5ef-55cc-41d0-9498-fe0a7b22118d'),
+                        height: height * 0.075),
+                  ),
                   SizedBox(width: 50),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyHomePage()));
+                        context.go('/company');
                       },
                       child: Text(
                         'COMPANY',
@@ -42,10 +65,7 @@ class TopWidget extends StatelessWidget {
                   Container(width: 1, color: Colors.grey, height: 20),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyHomePage()));
+                        context.go('/solutions');
                       },
                       child: Text(
                         'SOLUTIONS',
@@ -58,10 +78,7 @@ class TopWidget extends StatelessWidget {
                   Container(width: 1, color: Colors.grey, height: 20),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyHomePage()));
+                        context.go('/games/1');
                       },
                       child: Text(
                         'LIVE GAMES',
@@ -74,10 +91,7 @@ class TopWidget extends StatelessWidget {
                   Container(width: 1, color: Colors.grey, height: 20),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyHomePage()));
+                        context.go('/news');
                       },
                       child: Text(
                         'NEWS',
@@ -90,10 +104,7 @@ class TopWidget extends StatelessWidget {
                   Container(width: 1, color: Colors.grey, height: 20),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyHomePage()));
+                        context.go('/contacts');
                       },
                       child: Text(
                         'CONTACTS',
@@ -106,10 +117,7 @@ class TopWidget extends StatelessWidget {
                   Container(width: 1, color: Colors.grey, height: 20),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyHomePage()));
+                        launchUrl(Uri.parse('https://www.xpgdemo.com/'));
                       },
                       child: Text(
                         'LIVE DEMO',
@@ -122,10 +130,7 @@ class TopWidget extends StatelessWidget {
                   Container(width: 1, color: Colors.grey, height: 20),
                   TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MyHomePage()));
+                        context.go('/xpgbaccarat');
                       },
                       child: Text(
                         'XPG BACCARAT',

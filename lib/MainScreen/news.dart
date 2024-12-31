@@ -6,7 +6,6 @@ class News extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
     const List<String> image = [
       'assets/news1.jpg',

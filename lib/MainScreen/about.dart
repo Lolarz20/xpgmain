@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:video_player/video_player.dart';
 import 'package:web_video_player/player.dart';
 
@@ -88,6 +89,25 @@ class _AboutState extends State<About> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                           child: Image(
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
+                              return Center(
+                                  child: LoadingIndicator(
+                                      indicatorType: Indicator.squareSpin,
+                                      colors: const [Colors.grey],
+                                      strokeWidth: 2,
+                                      backgroundColor: Colors.black,
+                                      pathBackgroundColor: Colors.black));
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Center(
+                                child: Icon(
+                                  Icons.broken_image,
+                                  size: 48,
+                                  color: Colors.red,
+                                ),
+                              );
+                            },
                             image: NetworkImage(
                                 'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/mainVideo-ezgif.com-video-to-gif-converter.gif?alt=media&token=f9ff78eb-09f8-4147-8b3e-47e8320fb063'),
                           ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:xpgmain/MainScreen/about.dart';
 import 'package:xpgmain/MainScreen/banner.dart';
 import 'package:xpgmain/MainScreen/games.dart';
 import 'package:xpgmain/MainScreen/news.dart';
 import 'package:xpgmain/MainScreen/partners.dart';
 import 'package:xpgmain/MainScreen/top_bar.dart';
-import 'package:xpgmain/bottom_bar.dart';
 
 import 'middle_row.dart';
 
@@ -70,7 +70,27 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
                     child: Image(
-                      image: AssetImage('assets/casino.jpg'),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                            child: LoadingIndicator(
+                                indicatorType: Indicator.squareSpin,
+                                colors: const [Colors.grey],
+                                strokeWidth: 2,
+                                backgroundColor: Colors.black,
+                                pathBackgroundColor: Colors.black));
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Center(
+                          child: Icon(
+                            Icons.broken_image,
+                            size: 48,
+                            color: Colors.red,
+                          ),
+                        );
+                      },
+                      image: NetworkImage(
+                          'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fcasino.jpg?alt=media&token=2a7b9399-cf83-4305-96b2-e283cfc93f38'),
                       width: width * 0.9,
                       height: height * 0.9,
                       fit: BoxFit.cover,
@@ -174,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: height * 0.05),
             News(),
             SizedBox(height: height * 0.075),
-            BottomBar()
+            //BottomBar()
           ],
         ),
       ),

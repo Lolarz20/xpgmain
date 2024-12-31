@@ -22,7 +22,9 @@ class BottomBar extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image(
-                    image: AssetImage('assets/xpg.png'), height: height * 0.05),
+                    image: NetworkImage(
+                        'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fxpg.png?alt=media&token=c2c3a5ef-55cc-41d0-9498-fe0a7b22118d'),
+                    height: height * 0.05),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 
 class Partners extends StatelessWidget {
   const Partners({super.key});
@@ -25,22 +26,26 @@ class Partners extends StatelessWidget {
                 PartnerWidget(
                     width: width,
                     partner: 'PRAGMATIC PLAY',
-                    logo: 'assets/pragmatic.jpeg',
+                    logo:
+                        'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fpragmatic.jpeg?alt=media&token=c261ef28-b3d0-4812-bf4d-53306cb7f047',
                     height: height),
                 PartnerWidget(
                     width: width,
                     partner: 'BETRADAR',
-                    logo: 'assets/betradar.png',
+                    logo:
+                        'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fbetradar.png?alt=media&token=352b3f13-344f-49e0-bf00-ed1569f3ef6b',
                     height: height),
                 PartnerWidget(
                     width: width,
                     partner: 'BETSOFT',
-                    logo: 'assets/betsoft.png',
+                    logo:
+                        'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fbetsoft.png?alt=media&token=b1511cf3-d578-45de-bdba-6e87d62c2156',
                     height: height),
                 PartnerWidget(
                     width: width,
                     partner: 'CONCEPT GAMING',
-                    logo: 'assets/concept.png',
+                    logo:
+                        'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fconcept.png?alt=media&token=97eacc4b-4f3c-454a-899e-e052e8792381',
                     height: height),
               ],
             ),
@@ -92,7 +97,26 @@ class PartnerWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Image(
-            image: AssetImage(logo),
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) return child;
+              return Center(
+                  child: LoadingIndicator(
+                      indicatorType: Indicator.squareSpin,
+                      colors: const [Colors.grey],
+                      strokeWidth: 2,
+                      backgroundColor: Colors.black,
+                      pathBackgroundColor: Colors.black));
+            },
+            errorBuilder: (context, error, stackTrace) {
+              return Center(
+                child: Icon(
+                  Icons.broken_image,
+                  size: 48,
+                  color: Colors.red,
+                ),
+              );
+            },
+            image: NetworkImage(logo),
             height: height * 0.09,
             width: width * 0.125),
         SizedBox(height: 20),
