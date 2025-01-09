@@ -1,144 +1,281 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
+import 'package:responsive_builder/responsive_builder.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class BannerWidget extends StatefulWidget {
-  const BannerWidget({super.key});
-
+class BannerCarousel extends StatefulWidget {
   @override
-  State<BannerWidget> createState() => _BannerWidgetState();
+  State<BannerCarousel> createState() => _BannerCarouselState();
 }
 
-class _BannerWidgetState extends State<BannerWidget> {
-  final List<String> images = [
-    'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fslide_1.jpg?alt=media&token=598973e4-31f2-4a3c-9029-860a27cd622c',
-    'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fslide_2.jpg?alt=media&token=81721428-f943-45cb-a7c1-f1d1d3f01076',
-    'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fslide_3.jpg?alt=media&token=25cebf91-2275-4ff0-a6f8-62f1713c491d',
-  ];
+class _BannerCarouselState extends State<BannerCarousel> {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final PageController _pageController = PageController();
+  Timer? _timer;
+  int _currentIndex = 0;
+  List<DocumentSnapshot> _banners = []; // Lista banerów
 
-  int currentIndex = 0;
+  @override
+  void initState() {
+    super.initState();
+    _loadBanners(); // Wczytaj banery z Firestore
+  }
 
-  void _nextImage() {
+  // Funkcja do wczytania banerów z Firestore
+  void _loadBanners() async {
+    final snapshot = await _firestore.collection('banners').get();
     setState(() {
-      currentIndex = (currentIndex + 1) % images.length;
+      _banners = snapshot.docs;
+    });
+
+    // Uruchom Timer tylko wtedy, gdy załadowano dane
+    if (_banners.isNotEmpty) {
+      _startAutoScroll();
+    }
+  }
+
+  // Funkcja do automatycznego przewijania
+  void _startAutoScroll() {
+    _timer = Timer.periodic(Duration(seconds: 10), (Timer timer) {
+      if (_pageController.hasClients) {
+        int nextPage = (_currentIndex + 1) % _banners.length;
+        _pageController.animateToPage(
+          nextPage,
+          duration: Duration(milliseconds: 400),
+          curve: Curves.easeInOut,
+        );
+        setState(() {
+          _currentIndex = nextPage;
+        });
+      }
     });
   }
 
-  void _previousImage() {
-    setState(() {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-    });
+  @override
+  void dispose() {
+    _timer?.cancel(); // Anuluj Timer
+    _pageController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final height = MediaQuery.sizeOf(context).height;
     final width = MediaQuery.sizeOf(context).width;
-    return SizedBox(
-      width: width * 0.825,
-      height: height * 0.8,
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image(
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Center(
-                    child: LoadingIndicator(
-                        indicatorType: Indicator.squareSpin,
-                        colors: const [Colors.grey],
-                        strokeWidth: 2,
-                        backgroundColor: Colors.black,
-                        pathBackgroundColor: Colors.black));
-              },
-              errorBuilder: (context, error, stackTrace) {
-                return Center(
-                  child: Icon(
-                    Icons.broken_image,
-                    size: 48,
-                    color: Colors.red,
-                  ),
-                );
-              },
-              image: NetworkImage(images[currentIndex]),
-              fit: BoxFit.cover,
-              width: width * 0.825,
-              height: height * 0.8,
+    final height = MediaQuery.sizeOf(context).height;
+
+    if (_banners.isEmpty) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
+
+    return Column(
+      children: [
+        SizedBox(
+          width: width,
+          height: height * 0.7,
+          child: Stack(
+            children: [
+              // Karuzela banerów
+              PageView.builder(
+                controller: _pageController,
+                itemCount: _banners.length,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                itemBuilder: (context, index) {
+                  final data = _banners[index].data() as Map<String, dynamic>;
+
+                  return BannerWidget(
+                    imageUrl: data['imageUrl'],
+                    title: data['title'],
+                    subtitle: data['subtitle'],
+                    buttonText: data['buttonText'],
+                    buttonLink: data['buttonLink'],
+                  );
+                },
+              ),
+
+              // Strzałka w lewo
+              Positioned(
+                left: 20,
+                top: height * 0.35,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+                  onPressed: () {
+                    int previousPage = _currentIndex > 0
+                        ? _currentIndex - 1
+                        : _banners.length - 1;
+                    _pageController.animateToPage(
+                      previousPage,
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.easeInOut,
+                    );
+                    setState(() {
+                      _currentIndex = previousPage;
+                    });
+                  },
+                ),
+              ),
+
+              // Strzałka w prawo
+              Positioned(
+                right: 20,
+                top: height * 0.35,
+                child: IconButton(
+                  icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                  onPressed: () {
+                    int nextPage = (_currentIndex + 1) % _banners.length;
+                    _pageController.animateToPage(
+                      nextPage,
+                      duration: Duration(milliseconds: 400),
+                      curve: Curves.easeInOut,
+                    );
+                    setState(() {
+                      _currentIndex = nextPage;
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: height * 0.01),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(
+            _banners.length,
+            (index) => AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              margin: EdgeInsets.symmetric(horizontal: 5),
+              width: _currentIndex == index ? 12 : 8,
+              height: _currentIndex == index ? 12 : 8,
+              decoration: BoxDecoration(
+                color: _currentIndex == index
+                    ? Colors.orange
+                    : Colors.grey.shade400,
+                shape: BoxShape.circle,
+              ),
             ),
           ),
-          Positioned.fill(
-              child: Align(
+        ),
+      ],
+    );
+  }
+}
+
+class BannerWidget extends StatelessWidget {
+  final String imageUrl;
+  final String title;
+  final String subtitle;
+  final String buttonText;
+  final String buttonLink;
+
+  const BannerWidget({
+    super.key,
+    required this.imageUrl,
+    required this.title,
+    required this.subtitle,
+    required this.buttonText,
+    required this.buttonLink,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    final height = MediaQuery.sizeOf(context).height;
+    return Stack(
+      children: [
+        // Tło - obrazek banera
+        Image.network(
+          imageUrl,
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: double.infinity,
+        ),
+        Container(
+          width: width,
+          height: height * 0.7,
+          color: Colors.black.withOpacity(0.1),
+        ),
+        // Tekst i przyciski
+        Positioned.fill(
+          child: Align(
             alignment: Alignment.center,
-            child: Center(
-              child: Column(
+            child: ResponsiveBuilder(
+              builder: (context, sizingInformation) => Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Game Name/Title',
-                      style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                          color: Colors.white,
-                          fontFamily: 'marc',
-                          fontSize: 45)),
-                  SizedBox(height: height * 0.05),
-                  Container(
-                    width: width * 0.4,
-                    color: Colors.white,
-                    height: height * 0.001,
-                  ),
-                  SizedBox(height: height * 0.05),
                   SizedBox(
-                    width: width * 0.5,
+                    width: width * 0.7,
                     child: Text(
-                        textAlign: TextAlign.center,
-                        'Description of the game, some texts and others things that we can write about it',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            fontFamily: 'marc',
-                            fontSize: 25)),
-                  ),
-                  SizedBox(height: height * 0.075),
-                  Container(
-                    width: width * 0.15,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200]?.withOpacity(0.9),
-                      borderRadius: BorderRadius.circular(10),
+                      textAlign: TextAlign.center,
+                      title,
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: sizingInformation.isDesktop ? 50 : 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        fontFamily: 'marc',
+                      ),
                     ),
-                    child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Center(
-                          child: Text(
-                            'Button Text',
-                            style: TextStyle(
-                                fontSize: 22.5,
-                                color: Colors.grey,
-                                fontFamily: 'pop2'),
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 1,
+                    width: width * 0.2,
+                    color: Colors.white,
+                  ),
+                  SizedBox(height: 10),
+                  SizedBox(
+                    width: width * 0.7,
+                    child: Text(
+                      textAlign: TextAlign.center,
+                      subtitle,
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: sizingInformation.isDesktop ? 25 : 20,
+                        color: Colors.white,
+                        fontFamily: 'pop2',
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  (buttonLink == '' || buttonText == '')
+                      ? Container()
+                      : TextButton(
+                          onPressed: () {
+                            launchUrl(Uri.parse(buttonLink));
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: Text(
+                                buttonText,
+                                style: TextStyle(
+                                  fontFamily: 'pop2',
+                                  color: Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
                           ),
-                        )),
-                  )
+                        ),
                 ],
               ),
             ),
-          )),
-          Positioned(
-            left: 5,
-            child: TextButton(
-              onPressed: _previousImage,
-              child: Icon(Icons.arrow_back_ios, size: 40, color: Colors.white),
-            ),
           ),
-          // Przycisk dalej
-          Positioned(
-            right: 5,
-            child: TextButton(
-              onPressed: _nextImage,
-              child:
-                  Icon(Icons.arrow_forward_ios, size: 40, color: Colors.white),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

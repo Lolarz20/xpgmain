@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class MiddleRow extends StatelessWidget {
   const MiddleRow({super.key});
@@ -18,25 +19,31 @@ class MiddleRow extends StatelessWidget {
       'Customized product package for operators based on region of operation',
     ];
     const List<Icon> icon = [
-      Icon(Icons.casino, color: Colors.orange),
-      Icon(Icons.local_library, color: Colors.orange),
-      Icon(Icons.html, color: Colors.orange),
-      Icon(Icons.settings, color: Colors.orange),
+      Icon(Icons.casino, color: Colors.blueGrey),
+      Icon(Icons.local_library, color: Colors.blueGrey),
+      Icon(Icons.html, color: Colors.blueGrey),
+      Icon(Icons.settings, color: Colors.blueGrey),
     ];
     final width = MediaQuery.sizeOf(context).width;
-    return SizedBox(
-      width: width,
-      height: 100,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 250),
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: title.length,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: SolutionWidget(
-                title: title[index], desc: desc[index], icon: icon[index]),
+    return ResponsiveBuilder(
+      builder: (context, sizingInformation) => SizedBox(
+        width: width,
+        height: sizingInformation.isDesktop ? 100 : 275,
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              vertical: sizingInformation.isDesktop ? 0 : 10,
+              horizontal: sizingInformation.isDesktop ? 250 : 10),
+          child: ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: title.length,
+            scrollDirection:
+                sizingInformation.isDesktop ? Axis.horizontal : Axis.vertical,
+            itemBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25),
+              child: SolutionWidget(
+                  title: title[index], desc: desc[index], icon: icon[index]),
+            ),
           ),
         ),
       ),
@@ -54,28 +61,32 @@ class SolutionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        icon,
-        SizedBox(width: 10),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title,
-                style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'pop2',
-                    fontWeight: FontWeight.bold)),
-            SizedBox(
-              width: width * 0.15,
-              child: Text(desc,
+    return ResponsiveBuilder(
+      builder: (context, sizingInformation) => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          icon,
+          SizedBox(width: 10),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title,
                   style: TextStyle(
-                      color: Colors.grey, fontFamily: 'pop2', fontSize: 12.5)),
-            )
-          ],
-        )
-      ],
+                      color: Colors.black,
+                      fontFamily: 'pop2',
+                      fontWeight: FontWeight.bold)),
+              SizedBox(
+                width: sizingInformation.isDesktop ? width * 0.15 : width * 0.7,
+                child: Text(desc,
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontFamily: 'pop2',
+                        fontSize: 12.5)),
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

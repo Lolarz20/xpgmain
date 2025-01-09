@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:loading_indicator/loading_indicator.dart';
-import 'package:video_player/video_player.dart';
-import 'package:web_video_player/player.dart';
+import 'package:go_router/go_router.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 class About extends StatefulWidget {
   const About({super.key});
@@ -12,111 +11,97 @@ class About extends StatefulWidget {
 }
 
 class _AboutState extends State<About> {
+  bool seeMore = false;
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 200, vertical: 25),
-        child: Card(
-          elevation: 10,
-          color: Colors.white,
-          shape: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(25),
-              borderSide: BorderSide(color: Colors.orange, width: 3)),
-          child: Padding(
-              padding: EdgeInsets.all(32),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final height = MediaQuery.sizeOf(context).height;
+    return Stack(
+      children: [
+        Image(
+            image: NetworkImage(
+                'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/%D7%A2%D7%95%D7%AA%D7%A7%20%D7%A9%D7%9C%20XPG%20dealers%20(1).jpg?alt=media&token=d6b0bf4a-cb4d-437e-84ed-4a8367040286'),
+            width: width,
+            height: height * 0.6,
+            fit: BoxFit.cover),
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: width,
+              height: height * 0.6,
+              color: Colors.black.withOpacity(0.1),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: width * 0.3,
-                        child: Text(
-                          textAlign: TextAlign.left,
-                          'XPG delivers a sophisticated and flexible Live Casino system to gaming operators, White Label providers, and entrepreneurs worldwide. Offering the widest selection of Live games, professional dealers, and state-of-the-art equipment, XPG sets the standard for exceptional Live gaming.',
-                          style: TextStyle(
-                              fontFamily: 'pop2',
-                              fontSize: 20,
-                              color: CupertinoColors.darkBackgroundGray),
-                        ),
-                      ),
-                      SizedBox(height: 25),
-                      SizedBox(
-                        width: width * 0.3,
-                        child: Text(
-                          textAlign: TextAlign.left,
-                          'With 3 advanced studios in Bulgaria and Moldova, XPG combines top-of-the-line casino technology and appealing dealers to create a seamless and rewarding Live gaming experience for operators and players alike.',
-                          style: TextStyle(
-                              fontFamily: 'pop2',
-                              fontSize: 15,
-                              color: CupertinoColors.darkBackgroundGray),
-                        ),
-                      ),
+                      Padding(
+                          padding: EdgeInsets.symmetric(vertical: 15),
+                          child: Text('Our Games',
+                              style: TextStyle(
+                                fontFamily: 'pop2',
+                                fontSize: 35,
+                                color: Colors.white,
+                              ))),
+                      Container(
+                          width: width * 0.2, height: 1, color: Colors.grey),
                     ],
                   ),
-                  InkWell(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            Widget playerWidget =
-                                CircularProgressIndicator(color: Colors.orange);
-                            final controller = VideoPlayerController.networkUrl(
-                                Uri.parse(
-                                    'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/XproGaming%20-%20Live%20Dealer%20Casino%20-%20XPG.mp4?alt=media&token=4e522c20-10a6-439c-b86a-2fd26d0d2135'),
-                                videoPlayerOptions: VideoPlayerOptions(
-                                    allowBackgroundPlayback: true,
-                                    webOptions: VideoPlayerWebOptions(
-                                        allowRemotePlayback: true,
-                                        allowContextMenu: false,
-                                        controls: VideoPlayerWebOptionsControls
-                                            .disabled())));
-                            playerWidget = WebVideoPlayer(
-                                url:
-                                    'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/XproGaming%20-%20Live%20Dealer%20Casino%20-%20XPG.mp4?alt=media&token=4e522c20-10a6-439c-b86a-2fd26d0d2135',
-                                autoPlay: true,
-                                isFullscreen: true,
-                                videoController: controller);
-                            return Dialog(
-                              child: playerWidget,
-                            );
-                          });
-                    },
-                    child: SizedBox(
-                        width: width * 0.4,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image(
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) return child;
-                              return Center(
-                                  child: LoadingIndicator(
-                                      indicatorType: Indicator.squareSpin,
-                                      colors: const [Colors.grey],
-                                      strokeWidth: 2,
-                                      backgroundColor: Colors.black,
-                                      pathBackgroundColor: Colors.black));
-                            },
-                            errorBuilder: (context, error, stackTrace) {
-                              return Center(
-                                child: Icon(
-                                  Icons.broken_image,
-                                  size: 48,
-                                  color: Colors.red,
-                                ),
-                              );
-                            },
-                            image: NetworkImage(
-                                'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/mainVideo-ezgif.com-video-to-gif-converter.gif?alt=media&token=f9ff78eb-09f8-4147-8b3e-47e8320fb063'),
-                          ),
-                        )
-                        //child: playerWidget),
-                        ),
+                  SizedBox(height: height * 0.05),
+                  ResponsiveBuilder(
+                    builder: (context, sizingInformation) => SizedBox(
+                      width: sizingInformation.isDesktop
+                          ? width * 0.6
+                          : width * 0.9,
+                      child: Text(
+                          textAlign: TextAlign.center,
+                          'A unique and flawless gaming experience',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'pop2',
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                                  sizingInformation.isDesktop ? 22.5 : 12.5)),
+                    ),
                   ),
+                  SizedBox(height: height * 0.05),
+                  ResponsiveBuilder(
+                    builder: (context, sizingInformation) => InkWell(
+                        onHover: (value) {
+                          setState(() {
+                            seeMore = value;
+                          });
+                        },
+                        onTap: () => context.go('/games'),
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 200),
+                          width: sizingInformation.isDesktop
+                              ? width * 0.075
+                              : width * 0.3,
+                          decoration: BoxDecoration(
+                              color: seeMore
+                                  ? CupertinoColors.darkBackgroundGray
+                                  : Colors.white,
+                              borderRadius: BorderRadius.circular(5)),
+                          child: Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Center(
+                                child: Text('SEE MORE',
+                                    style: TextStyle(
+                                      color: Colors.blueGrey,
+                                      fontFamily: 'pop2',
+                                    )),
+                              )),
+                        )),
+                  )
                 ],
-              )),
-        ));
+              ),
+            ),
+          ),
+        )
+      ],
+    );
   }
 }
