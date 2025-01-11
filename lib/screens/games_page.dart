@@ -32,92 +32,99 @@ class GamesWidget extends StatelessWidget {
 
           final games = snapshot.data!.docs;
 
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                TopWidget(keyMain: key),
-                SizedBox(height: height * 0.05),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text('OUR',
-                        style: TextStyle(fontFamily: 'pop2', fontSize: 30)),
-                    SizedBox(width: width * 0.005),
-                    Text('GAMES',
-                        style: TextStyle(
-                            fontFamily: 'pop2',
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold)),
-                  ],
+          return CustomScrollView(
+            slivers: [
+              SliverPersistentHeader(
+                  delegate: CustomHeaderDelegate(keyMain: key)),
+              SliverFillRemaining(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('OUR',
+                              style:
+                                  TextStyle(fontFamily: 'pop2', fontSize: 30)),
+                          SizedBox(width: width * 0.005),
+                          Text('GAMES',
+                              style: TextStyle(
+                                  fontFamily: 'pop2',
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold)),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Container(
+                        width: width * 0.15,
+                        height: 0.5,
+                        color: Colors.blueGrey,
+                      ),
+                      SizedBox(height: height * 0.05),
+                      GamesWidget1(),
+                      // ResponsiveBuilder(
+                      //   builder: (context, sizingInformation) => sizingInformation
+                      //           .isDesktop
+                      //       ? Container(
+                      //           width: width,
+                      //           //decoration: BoxDecoration(color: Colors.grey[200]),
+                      //           child: GridView.builder(
+                      //             physics: NeverScrollableScrollPhysics(),
+                      //             shrinkWrap: true,
+                      //             itemCount: games.length,
+                      //             gridDelegate:
+                      //                 SliverGridDelegateWithFixedCrossAxisCount(
+                      //                     crossAxisCount: 5),
+                      //             itemBuilder: (context, index) {
+                      //               final game =
+                      //                   games[index].data() as Map<String, dynamic>;
+                      //               return InkWell(
+                      //                 onTap: () {
+                      //                   context.go(
+                      //                       '/games/${snapshot.data?.docs[index].id}');
+                      //                 },
+                      //                 child: BuildTile(
+                      //                   image: game['mainImage'],
+                      //                   title: game['title'],
+                      //                   description: game['description'],
+                      //                 ),
+                      //               );
+                      //             },
+                      //           ),
+                      //         )
+                      //       : Container(
+                      //           width: width,
+                      //           //decoration: BoxDecoration(color: Colors.grey[200]),
+                      //           child: ListView.builder(
+                      //             physics: NeverScrollableScrollPhysics(),
+                      //             shrinkWrap: true,
+                      //             itemCount: games.length,
+                      //             itemBuilder: (context, index) {
+                      //               final game =
+                      //                   games[index].data() as Map<String, dynamic>;
+                      //               return InkWell(
+                      //                 onTap: () {
+                      //                   context.go(
+                      //                       '/games/${snapshot.data?.docs[index].id}');
+                      //                 },
+                      //                 child: BuildTile(
+                      //                   image: game['mainImage'],
+                      //                   title: game['title'],
+                      //                   description: game['description'],
+                      //                 ),
+                      //               );
+                      //             },
+                      //           ),
+                      //         ),
+                      // ),
+                      SizedBox(height: height * 0.075),
+                      BottomBar()
+                    ],
+                  ),
                 ),
-                SizedBox(height: 15),
-                Container(
-                  width: width * 0.15,
-                  height: 0.5,
-                  color: Colors.blueGrey,
-                ),
-                SizedBox(height: height * 0.05),
-                GamesWidget1(),
-                // ResponsiveBuilder(
-                //   builder: (context, sizingInformation) => sizingInformation
-                //           .isDesktop
-                //       ? Container(
-                //           width: width,
-                //           //decoration: BoxDecoration(color: Colors.grey[200]),
-                //           child: GridView.builder(
-                //             physics: NeverScrollableScrollPhysics(),
-                //             shrinkWrap: true,
-                //             itemCount: games.length,
-                //             gridDelegate:
-                //                 SliverGridDelegateWithFixedCrossAxisCount(
-                //                     crossAxisCount: 5),
-                //             itemBuilder: (context, index) {
-                //               final game =
-                //                   games[index].data() as Map<String, dynamic>;
-                //               return InkWell(
-                //                 onTap: () {
-                //                   context.go(
-                //                       '/games/${snapshot.data?.docs[index].id}');
-                //                 },
-                //                 child: BuildTile(
-                //                   image: game['mainImage'],
-                //                   title: game['title'],
-                //                   description: game['description'],
-                //                 ),
-                //               );
-                //             },
-                //           ),
-                //         )
-                //       : Container(
-                //           width: width,
-                //           //decoration: BoxDecoration(color: Colors.grey[200]),
-                //           child: ListView.builder(
-                //             physics: NeverScrollableScrollPhysics(),
-                //             shrinkWrap: true,
-                //             itemCount: games.length,
-                //             itemBuilder: (context, index) {
-                //               final game =
-                //                   games[index].data() as Map<String, dynamic>;
-                //               return InkWell(
-                //                 onTap: () {
-                //                   context.go(
-                //                       '/games/${snapshot.data?.docs[index].id}');
-                //                 },
-                //                 child: BuildTile(
-                //                   image: game['mainImage'],
-                //                   title: game['title'],
-                //                   description: game['description'],
-                //                 ),
-                //               );
-                //             },
-                //           ),
-                //         ),
-                // ),
-                SizedBox(height: height * 0.075),
-                BottomBar()
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),

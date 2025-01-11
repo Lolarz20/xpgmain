@@ -326,6 +326,9 @@ class BottomBar extends StatelessWidget {
                                   color: Colors.grey, size: 50)),
                         ],
                       ),
+                      SizedBox(height: 25),
+                      Disclaimers(),
+                      SizedBox(height: 25),
                       Text('XPG © 2017 - 2025 All Rights Reserved',
                           style: TextStyle(
                               color: Colors.grey,

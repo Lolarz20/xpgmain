@@ -1,4 +1,6 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:xpgmain/MainScreen/news.dart';
@@ -19,38 +21,43 @@ class News extends StatelessWidget {
         backgroundColor: Colors.white,
         drawer: MainDrawer(),
         key: key,
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              TopWidget(
-                keyMain: key,
+        body: CustomScrollView(
+          slivers: [
+            SliverPersistentHeader(
+                delegate: CustomHeaderDelegate(keyMain: key)),
+            SliverFillRemaining(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text('LATEST',
+                            style: TextStyle(fontFamily: 'pop2', fontSize: 30)),
+                        SizedBox(width: width * 0.005),
+                        Text('NEWS',
+                            style: TextStyle(
+                                fontFamily: 'pop2',
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold)),
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                    Container(
+                      width: width * 0.15,
+                      height: 0.5,
+                      color: Colors.blueGrey,
+                    ),
+                    SizedBox(height: height * 0.05),
+                    ArticlesGridView(),
+                    SizedBox(height: height * 0.05),
+                    BottomBar(),
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text('LATEST',
-                      style: TextStyle(fontFamily: 'pop2', fontSize: 30)),
-                  SizedBox(width: width * 0.005),
-                  Text('NEWS',
-                      style: TextStyle(
-                          fontFamily: 'pop2',
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold)),
-                ],
-              ),
-              SizedBox(height: 15),
-              Container(
-                width: width * 0.15,
-                height: 0.5,
-                color: Colors.blueGrey,
-              ),
-              SizedBox(height: height * 0.05),
-              ArticlesGridView(),
-              SizedBox(height: height * 0.05),
-              BottomBar(),
-            ],
-          ),
+            ),
+          ],
         ));
   }
 }
@@ -85,9 +92,6 @@ class ArticlesGridView extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: sizingInformation.isDesktop ? 5 : 1,
-              childAspectRatio: 0.75,
-              crossAxisSpacing: 8.0,
-              mainAxisSpacing: 8.0,
             ),
             itemCount: articles.length,
             itemBuilder: (context, index) {
@@ -117,6 +121,7 @@ class ArticleDetailPage extends StatelessWidget {
     final width = MediaQuery.sizeOf(context).width;
     final key = GlobalKey<ScaffoldState>();
     return Scaffold(
+      backgroundColor: Colors.white,
       key: key,
       drawer: MainDrawer(),
       body: FutureBuilder<DocumentSnapshot>(
@@ -134,58 +139,99 @@ class ArticleDetailPage extends StatelessWidget {
           final article = snapshot.data!.data() as Map<String, dynamic>;
 
           return ResponsiveBuilder(
-            builder: (context, sizingInformation) => SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TopWidget(keyMain: key),
-                  Image.network(
-                    article['image'],
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: sizingInformation.isDesktop ? 500 : 400,
-                  ),
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: sizingInformation.isDesktop ? 32 : 16,
-                        vertical: 10),
-                    child: Text(
-                      article['title'],
-                      style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'pop2'),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  Padding(
-                    padding:
-                        EdgeInsets.all(sizingInformation.isDesktop ? 64 : 32),
-                    child: Text(
-                      article['description'],
-                      style:
-                          const TextStyle(fontSize: 12.5, fontFamily: 'pop2'),
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
-                        child: Text(
-                          "Date: ${article['date']}",
-                          style: const TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey,
-                              fontFamily: 'pop2'),
+            builder: (context, sizingInformation) => CustomScrollView(
+              slivers: [
+                SliverPersistentHeader(
+                    delegate: CustomHeaderDelegate(keyMain: key)),
+                SliverFillRemaining(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Stack(
+                          children: [
+                            Image.network(
+                              article['image'],
+                              fit: BoxFit.cover,
+                              width: double.infinity,
+                              height: sizingInformation.isDesktop ? 250 : 400,
+                            ),
+                            Container(
+                              color: CupertinoColors.darkBackgroundGray
+                                  .withOpacity(0.5),
+                              width: double.infinity,
+                              height: sizingInformation.isDesktop ? 250 : 400,
+                            ),
+                            Positioned.fill(
+                                child: Align(
+                              alignment: Alignment.center,
+                              child: FadeInUp(
+                                delay: Duration(milliseconds: 1000),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      textAlign: TextAlign.center,
+                                      article['title'],
+                                      style: TextStyle(
+                                          fontSize: sizingInformation.isDesktop
+                                              ? 50
+                                              : 24,
+                                          color: Colors.white,
+                                          fontFamily: 'pop'),
+                                    ),
+                                    SizedBox(height: 15),
+                                    Container(
+                                      width: width * 0.25,
+                                      color: Colors.white,
+                                      height: 0.5,
+                                    ),
+                                    SizedBox(height: 15),
+                                    Text(article['date'],
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontFamily: 'pop',
+                                            fontStyle: FontStyle.italic))
+                                  ],
+                                ),
+                              ),
+                            ))
+                          ],
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 16),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: sizingInformation.isDesktop ? 75 : 16,
+                              vertical: 25),
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            article['title'],
+                            style: const TextStyle(
+                                fontSize: 35,
+                                color: Colors.blueGrey,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'pop2'),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: sizingInformation.isDesktop ? 250 : 16,
+                          ),
+                          child: Text(
+                            textAlign: TextAlign.center,
+                            article['description'],
+                            style: const TextStyle(
+                                fontSize: 17.5, fontFamily: 'pop2'),
+                          ),
+                        ),
+                        SizedBox(height: 50),
+                        BottomBar()
+                      ],
+                    ),
                   ),
-                  BottomBar()
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },

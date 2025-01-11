@@ -48,6 +48,13 @@ class Disclaimers extends StatelessWidget {
                         Image(image: AssetImage('assets/ukgc.png'), height: 30),
                   ),
                   SizedBox(width: 25),
+                  InkWell(
+                    onTap: () => launchUrl(Uri.parse(
+                        'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/iTech.pdf?alt=media&token=36477cf8-ab4d-45b5-a31f-eb827a9438ae')),
+                    child: Image(
+                        image: AssetImage('assets/itech.png'), height: 30),
+                  ),
+                  SizedBox(width: 25),
                   Image(image: AssetImage('assets/18-logo.png'), height: 30),
                 ],
               )
@@ -98,6 +105,13 @@ class Disclaimers extends StatelessWidget {
                             'https://www.gamblingcommission.gov.uk/')),
                         child: Image(
                             image: AssetImage('assets/ukgc.png'), height: 25),
+                      ),
+                      SizedBox(width: 25),
+                      InkWell(
+                        onTap: () => launchUrl(Uri.parse(
+                            'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/iTech.pdf?alt=media&token=36477cf8-ab4d-45b5-a31f-eb827a9438ae')),
+                        child: Image(
+                            image: AssetImage('assets/itech.png'), height: 30),
                       ),
                       SizedBox(width: 25),
                       Image(

@@ -18,144 +18,156 @@ class Mobile extends StatelessWidget {
       key: key,
       body: ResponsiveBuilder(
           builder: (context, sizingInformation) => sizingInformation.isDesktop
-              ? SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      TopWidget(keyMain: key),
-                      SizedBox(height: height * 0.01),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('MOBILE',
-                              style:
-                                  TextStyle(fontFamily: 'pop2', fontSize: 30)),
-                          SizedBox(width: width * 0.005),
-                          Text('SOLUTIONS',
-                              style: TextStyle(
-                                  fontFamily: 'pop2',
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Container(
-                        width: width * 0.15,
-                        height: 0.5,
-                        color: Colors.blueGrey,
-                      ),
-                      SizedBox(height: height * 0.05),
-                      SizedBox(
-                        width: width * 0.65,
-                        child: Text(
-                            textAlign: TextAlign.center,
-                            'XPG demonstrates evolutionary approach to mobile development by creating HTML5 Mobile solution. Many of its features have been adapted with the consideration of running on low powered devices, such as Smart Phones and Tablets. Importantly whilst running within a web browser, it is not tied to the underlying operating system. It is already supported in the latest web browsers and provides unparalleled Live gaming experience. For those who still prefer to download the app, XPG has created a user-friendly and reliable Mobile app for Android devices with a clear interface and intuitive navigation.',
-                            style: TextStyle(
-                                fontFamily: 'pop2', color: Colors.grey)),
-                      ),
-                      SizedBox(height: height * 0.05),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _buildFeatureCard(
-                                width: width,
-                                icon: Icons.public,
-                                title: 'PLAY ANYWHERE AT ANY TIME',
+              ? CustomScrollView(
+                  slivers: [
+                    SliverPersistentHeader(
+                        delegate: CustomHeaderDelegate(keyMain: key)),
+                    SliverFillRemaining(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('MOBILE',
+                                    style: TextStyle(
+                                        fontFamily: 'pop2', fontSize: 30)),
+                                SizedBox(width: width * 0.005),
+                                Text('SOLUTIONS',
+                                    style: TextStyle(
+                                        fontFamily: 'pop2',
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                            SizedBox(height: 15),
+                            Container(
+                              width: width * 0.15,
+                              height: 0.5,
+                              color: Colors.blueGrey,
+                            ),
+                            SizedBox(height: height * 0.05),
+                            SizedBox(
+                              width: width * 0.65,
+                              child: Text(
+                                  textAlign: TextAlign.center,
+                                  'XPG demonstrates evolutionary approach to mobile development by creating HTML5 Mobile solution. Many of its features have been adapted with the consideration of running on low powered devices, such as Smart Phones and Tablets. Importantly whilst running within a web browser, it is not tied to the underlying operating system. It is already supported in the latest web browsers and provides unparalleled Live gaming experience. For those who still prefer to download the app, XPG has created a user-friendly and reliable Mobile app for Android devices with a clear interface and intuitive navigation.',
+                                  style: TextStyle(
+                                      fontFamily: 'pop2', color: Colors.grey)),
+                            ),
+                            SizedBox(height: height * 0.05),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    _buildFeatureCard(
+                                      width: width,
+                                      icon: Icons.public,
+                                      title: 'PLAY ANYWHERE AT ANY TIME',
+                                    ),
+                                    _buildFeatureCard(
+                                      width: width,
+                                      icon: Icons.devices,
+                                      title: 'PLAY ON ANY DEVICE',
+                                    ),
+                                    _buildFeatureCard(
+                                      width: width,
+                                      icon: Icons.language,
+                                      title: 'PLAY IN ANY BROWSER',
+                                    ),
+                                    _buildFeatureCard(
+                                      width: width,
+                                      icon: Icons.videogame_asset,
+                                      title: 'PLAY ANY GAME OF CHOICE',
+                                    ),
+                                  ],
+                                ),
                               ),
-                              _buildFeatureCard(
-                                width: width,
-                                icon: Icons.devices,
-                                title: 'PLAY ON ANY DEVICE',
-                              ),
-                              _buildFeatureCard(
-                                width: width,
-                                icon: Icons.language,
-                                title: 'PLAY IN ANY BROWSER',
-                              ),
-                              _buildFeatureCard(
-                                width: width,
-                                icon: Icons.videogame_asset,
-                                title: 'PLAY ANY GAME OF CHOICE',
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(height: height * 0.375),
+                            BottomBar()
+                          ],
                         ),
                       ),
-                      SizedBox(height: height * 0.375),
-                      BottomBar()
-                    ],
-                  ),
+                    ),
+                  ],
                 )
-              : SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      TopWidget(keyMain: key),
-                      SizedBox(height: height * 0.01),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text('MOBILE',
-                              style:
-                                  TextStyle(fontFamily: 'pop2', fontSize: 30)),
-                          SizedBox(width: width * 0.005),
-                          Text('SOLUTIONS',
-                              style: TextStyle(
-                                  fontFamily: 'pop2',
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold)),
-                        ],
-                      ),
-                      SizedBox(height: height * 0.05),
-                      SizedBox(
-                        width: width * 0.8,
-                        child: Text(
-                            textAlign: TextAlign.center,
-                            'XPG demonstrates evolutionary approach to mobile development by creating HTML5 Mobile solution. Many of its features have been adapted with the consideration of running on low powered devices, such as Smart Phones and Tablets. Importantly whilst running within a web browser, it is not tied to the underlying operating system. It is already supported in the latest web browsers and provides unparalleled Live gaming experience. For those who still prefer to download the app, XPG has created a user-friendly and reliable Mobile app for Android devices with a clear interface and intuitive navigation.',
-                            style: TextStyle(
-                                fontFamily: 'pop2', color: Colors.grey)),
-                      ),
-                      SizedBox(height: height * 0.05),
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              _buildFeatureCard(
-                                width: width,
-                                icon: Icons.public,
-                                title: 'PLAY ANYWHERE AT ANY TIME',
+              : CustomScrollView(
+                  slivers: [
+                    SliverPersistentHeader(
+                        delegate: CustomHeaderDelegate(keyMain: key)),
+                    SliverFillRemaining(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('MOBILE',
+                                    style: TextStyle(
+                                        fontFamily: 'pop2', fontSize: 30)),
+                                SizedBox(width: width * 0.005),
+                                Text('SOLUTIONS',
+                                    style: TextStyle(
+                                        fontFamily: 'pop2',
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                            SizedBox(height: height * 0.05),
+                            SizedBox(
+                              width: width * 0.8,
+                              child: Text(
+                                  textAlign: TextAlign.center,
+                                  'XPG demonstrates evolutionary approach to mobile development by creating HTML5 Mobile solution. Many of its features have been adapted with the consideration of running on low powered devices, such as Smart Phones and Tablets. Importantly whilst running within a web browser, it is not tied to the underlying operating system. It is already supported in the latest web browsers and provides unparalleled Live gaming experience. For those who still prefer to download the app, XPG has created a user-friendly and reliable Mobile app for Android devices with a clear interface and intuitive navigation.',
+                                  style: TextStyle(
+                                      fontFamily: 'pop2', color: Colors.grey)),
+                            ),
+                            SizedBox(height: height * 0.05),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    _buildFeatureCard(
+                                      width: width,
+                                      icon: Icons.public,
+                                      title: 'PLAY ANYWHERE AT ANY TIME',
+                                    ),
+                                    SizedBox(height: height * 0.05),
+                                    _buildFeatureCard(
+                                      width: width,
+                                      icon: Icons.devices,
+                                      title: 'PLAY ON ANY DEVICE',
+                                    ),
+                                    SizedBox(height: height * 0.05),
+                                    _buildFeatureCard(
+                                      width: width,
+                                      icon: Icons.language,
+                                      title: 'PLAY IN ANY BROWSER',
+                                    ),
+                                    SizedBox(height: height * 0.05),
+                                    _buildFeatureCard(
+                                      width: width,
+                                      icon: Icons.videogame_asset,
+                                      title: 'PLAY ANY GAME OF CHOICE',
+                                    ),
+                                  ],
+                                ),
                               ),
-                              SizedBox(height: height * 0.05),
-                              _buildFeatureCard(
-                                width: width,
-                                icon: Icons.devices,
-                                title: 'PLAY ON ANY DEVICE',
-                              ),
-                              SizedBox(height: height * 0.05),
-                              _buildFeatureCard(
-                                width: width,
-                                icon: Icons.language,
-                                title: 'PLAY IN ANY BROWSER',
-                              ),
-                              SizedBox(height: height * 0.05),
-                              _buildFeatureCard(
-                                width: width,
-                                icon: Icons.videogame_asset,
-                                title: 'PLAY ANY GAME OF CHOICE',
-                              ),
-                            ],
-                          ),
+                            ),
+                            SizedBox(height: height * 0.01),
+                            BottomBar()
+                          ],
                         ),
                       ),
-                      SizedBox(height: height * 0.01),
-                      BottomBar()
-                    ],
-                  ),
+                    ),
+                  ],
                 )),
     );
   }

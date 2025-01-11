@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -206,75 +207,127 @@ class BannerWidget extends StatelessWidget {
         Positioned.fill(
           child: Align(
             alignment: Alignment.center,
-            child: ResponsiveBuilder(
-              builder: (context, sizingInformation) => Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    width: width * 0.7,
-                    child: Text(
-                      textAlign: TextAlign.center,
-                      title,
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontSize: sizingInformation.isDesktop ? 50 : 25,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontFamily: 'marc',
+            child: FadeInUp(
+              delay: Duration(milliseconds: 1000),
+              child: ResponsiveBuilder(
+                builder: (context, sizingInformation) => Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      width: width * 0.7,
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        title,
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontSize: sizingInformation.isDesktop ? 50 : 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontFamily: 'marc',
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Container(
-                    height: 1,
-                    width: width * 0.2,
-                    color: Colors.white,
-                  ),
-                  SizedBox(height: 10),
-                  SizedBox(
-                    width: width * 0.7,
-                    child: Text(
-                      textAlign: TextAlign.center,
-                      subtitle,
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontSize: sizingInformation.isDesktop ? 25 : 20,
-                        color: Colors.white,
-                        fontFamily: 'pop2',
+                    SizedBox(height: 10),
+                    Container(
+                      height: 1,
+                      width: width * 0.2,
+                      color: Colors.white,
+                    ),
+                    SizedBox(height: 10),
+                    SizedBox(
+                      width: width * 0.7,
+                      child: Text(
+                        textAlign: TextAlign.center,
+                        subtitle,
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontSize: sizingInformation.isDesktop ? 25 : 20,
+                          color: Colors.white,
+                          fontFamily: 'pop2',
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 20),
-                  (buttonLink == '' || buttonText == '')
-                      ? Container()
-                      : TextButton(
-                          onPressed: () {
-                            launchUrl(Uri.parse(buttonLink));
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16),
-                              child: Text(
-                                buttonText,
-                                style: TextStyle(
-                                  fontFamily: 'pop2',
-                                  color: Colors.grey,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20,
+                    SizedBox(height: 20),
+                    (buttonLink == '' || buttonText == '')
+                        ? Container()
+                        : TextButton(
+                            onPressed: () {
+                              launchUrl(Uri.parse(buttonLink));
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Text(
+                                  buttonText,
+                                  style: TextStyle(
+                                    fontFamily: 'pop2',
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
         ),
+        Positioned.fill(
+            child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 25),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: AssetImage('assets/18-logo.png'),
+                  height: 35,
+                ),
+                // SizedBox(width: 5),
+                // Container(
+                //   width: 1,
+                //   height: 25,
+                //   color: Colors.white,
+                // ),
+                // SizedBox(width: 5),
+                // Image(
+                //   image: AssetImage('assets/itech.png'),
+                //   height: 35,
+                // ),
+                // SizedBox(width: 5),
+                // Container(
+                //   width: 1,
+                //   height: 25,
+                //   color: Colors.white,
+                // ),
+                // SizedBox(width: 5),
+                // Image(
+                //   image: AssetImage('assets/MGA-logo-new.png'),
+                //   height: 35,
+                // ),
+                // SizedBox(width: 5),
+                // Container(
+                //   width: 1,
+                //   height: 25,
+                //   color: Colors.white,
+                // ),
+                // SizedBox(width: 5),
+                // Image(
+                //   image: AssetImage('assets/gamstop.png'),
+                //   height: 35,
+                // ),
+              ],
+            ),
+          ),
+        ))
       ],
     );
   }
