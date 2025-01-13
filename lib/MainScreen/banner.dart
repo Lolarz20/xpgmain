@@ -74,75 +74,77 @@ class _BannerCarouselState extends State<BannerCarousel> {
 
     return Column(
       children: [
-        SizedBox(
-          width: width,
-          height: height * 0.7,
-          child: Stack(
-            children: [
-              // Karuzela banerów
-              PageView.builder(
-                controller: _pageController,
-                itemCount: _banners.length,
-                onPageChanged: (index) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                itemBuilder: (context, index) {
-                  final data = _banners[index].data() as Map<String, dynamic>;
-
-                  return BannerWidget(
-                    imageUrl: data['imageUrl'],
-                    title: data['title'],
-                    subtitle: data['subtitle'],
-                    buttonText: data['buttonText'],
-                    buttonLink: data['buttonLink'],
-                  );
-                },
-              ),
-
-              // Strzałka w lewo
-              Positioned(
-                left: 20,
-                top: height * 0.35,
-                child: IconButton(
-                  icon: Icon(Icons.arrow_back_ios, color: Colors.white),
-                  onPressed: () {
-                    int previousPage = _currentIndex > 0
-                        ? _currentIndex - 1
-                        : _banners.length - 1;
-                    _pageController.animateToPage(
-                      previousPage,
-                      duration: Duration(milliseconds: 400),
-                      curve: Curves.easeInOut,
-                    );
+        ResponsiveBuilder(
+          builder: (context, sizingInformation) => SizedBox(
+            width: width,
+            height: sizingInformation.isDesktop ? height * 0.775 : height * 0.5,
+            child: Stack(
+              children: [
+                // Karuzela banerów
+                PageView.builder(
+                  controller: _pageController,
+                  itemCount: _banners.length,
+                  onPageChanged: (index) {
                     setState(() {
-                      _currentIndex = previousPage;
+                      _currentIndex = index;
                     });
                   },
-                ),
-              ),
+                  itemBuilder: (context, index) {
+                    final data = _banners[index].data() as Map<String, dynamic>;
 
-              // Strzałka w prawo
-              Positioned(
-                right: 20,
-                top: height * 0.35,
-                child: IconButton(
-                  icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
-                  onPressed: () {
-                    int nextPage = (_currentIndex + 1) % _banners.length;
-                    _pageController.animateToPage(
-                      nextPage,
-                      duration: Duration(milliseconds: 400),
-                      curve: Curves.easeInOut,
+                    return BannerWidget(
+                      imageUrl: data['imageUrl'],
+                      title: data['title'],
+                      subtitle: data['subtitle'],
+                      buttonText: data['buttonText'],
+                      buttonLink: data['buttonLink'],
                     );
-                    setState(() {
-                      _currentIndex = nextPage;
-                    });
                   },
                 ),
-              ),
-            ],
+
+                // Strzałka w lewo
+                Positioned(
+                  left: 20,
+                  top: height * 0.35,
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+                    onPressed: () {
+                      int previousPage = _currentIndex > 0
+                          ? _currentIndex - 1
+                          : _banners.length - 1;
+                      _pageController.animateToPage(
+                        previousPage,
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.easeInOut,
+                      );
+                      setState(() {
+                        _currentIndex = previousPage;
+                      });
+                    },
+                  ),
+                ),
+
+                // Strzałka w prawo
+                Positioned(
+                  right: 20,
+                  top: height * 0.35,
+                  child: IconButton(
+                    icon: Icon(Icons.arrow_forward_ios, color: Colors.white),
+                    onPressed: () {
+                      int nextPage = (_currentIndex + 1) % _banners.length;
+                      _pageController.animateToPage(
+                        nextPage,
+                        duration: Duration(milliseconds: 400),
+                        curve: Curves.easeInOut,
+                      );
+                      setState(() {
+                        _currentIndex = nextPage;
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         SizedBox(height: height * 0.01),
@@ -189,146 +191,154 @@ class BannerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     final height = MediaQuery.sizeOf(context).height;
-    return Stack(
-      children: [
-        // Tło - obrazek banera
-        Image.network(
-          imageUrl,
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: double.infinity,
-        ),
-        Container(
-          width: width,
-          height: height * 0.7,
-          color: Colors.black.withOpacity(0.1),
-        ),
-        // Tekst i przyciski
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.center,
-            child: FadeInUp(
-              delay: Duration(milliseconds: 1000),
-              child: ResponsiveBuilder(
-                builder: (context, sizingInformation) => Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: width * 0.7,
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        title,
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: sizingInformation.isDesktop ? 50 : 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontFamily: 'marc',
+    return ResponsiveBuilder(
+      builder: (context, sizingInformation) => Stack(
+        children: [
+          // Tło - obrazek banera
+          Image.network(
+            imageUrl,
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          Container(
+            width: width,
+            height: sizingInformation.isDesktop ? height * 0.775 : height * 0.5,
+            color: Colors.black.withOpacity(0.1),
+          ),
+          // Tekst i przyciski
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.center,
+              child: FadeInUp(
+                delay: Duration(milliseconds: 1000),
+                child: ResponsiveBuilder(
+                  builder: (context, sizingInformation) => Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        width: width * 0.7,
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          title,
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontSize: sizingInformation.isDesktop ? 60 : 25,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontFamily: 'roman',
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      height: 1,
-                      width: width * 0.2,
-                      color: Colors.white,
-                    ),
-                    SizedBox(height: 10),
-                    SizedBox(
-                      width: width * 0.7,
-                      child: Text(
-                        textAlign: TextAlign.center,
-                        subtitle,
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontSize: sizingInformation.isDesktop ? 25 : 20,
-                          color: Colors.white,
-                          fontFamily: 'pop2',
+                      SizedBox(height: 10),
+                      Container(
+                        height: 1,
+                        width: width * 0.2,
+                        color: Colors.white,
+                      ),
+                      SizedBox(height: 30),
+                      SizedBox(
+                        width: width * 0.7,
+                        child: Text(
+                          textAlign: TextAlign.center,
+                          subtitle,
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                            fontSize: sizingInformation.isDesktop ? 17.5 : 12.5,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'pop',
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 20),
-                    (buttonLink == '' || buttonText == '')
-                        ? Container()
-                        : TextButton(
-                            onPressed: () {
-                              launchUrl(Uri.parse(buttonLink));
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(16),
-                                child: Text(
-                                  buttonText,
-                                  style: TextStyle(
-                                    fontFamily: 'pop2',
-                                    color: Colors.grey,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
+                      SizedBox(height: 50),
+                      (buttonLink == '' || buttonText == '')
+                          ? Container()
+                          : ResponsiveBuilder(
+                              builder: (context, sizingInformation) =>
+                                  TextButton(
+                                onPressed: () {
+                                  launchUrl(Uri.parse(buttonLink));
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(
+                                        sizingInformation.isDesktop ? 20 : 14),
+                                    child: Text(
+                                      buttonText,
+                                      style: TextStyle(
+                                        fontFamily: 'pop2',
+                                        color: Colors.blueGrey,
+                                        fontSize: sizingInformation.isDesktop
+                                            ? 15
+                                            : 12.5,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Positioned.fill(
-            child: Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                  image: AssetImage('assets/18-logo.png'),
-                  height: 35,
-                ),
-                // SizedBox(width: 5),
-                // Container(
-                //   width: 1,
-                //   height: 25,
-                //   color: Colors.white,
-                // ),
-                // SizedBox(width: 5),
-                // Image(
-                //   image: AssetImage('assets/itech.png'),
-                //   height: 35,
-                // ),
-                // SizedBox(width: 5),
-                // Container(
-                //   width: 1,
-                //   height: 25,
-                //   color: Colors.white,
-                // ),
-                // SizedBox(width: 5),
-                // Image(
-                //   image: AssetImage('assets/MGA-logo-new.png'),
-                //   height: 35,
-                // ),
-                // SizedBox(width: 5),
-                // Container(
-                //   width: 1,
-                //   height: 25,
-                //   color: Colors.white,
-                // ),
-                // SizedBox(width: 5),
-                // Image(
-                //   image: AssetImage('assets/gamstop.png'),
-                //   height: 35,
-                // ),
-              ],
+          Positioned.fill(
+              child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 25),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image(
+                    image: AssetImage('assets/18-logo.png'),
+                    height: 35,
+                  ),
+                  // SizedBox(width: 5),
+                  // Container(
+                  //   width: 1,
+                  //   height: 25,
+                  //   color: Colors.white,
+                  // ),
+                  // SizedBox(width: 5),
+                  // Image(
+                  //   image: AssetImage('assets/itech.png'),
+                  //   height: 35,
+                  // ),
+                  // SizedBox(width: 5),
+                  // Container(
+                  //   width: 1,
+                  //   height: 25,
+                  //   color: Colors.white,
+                  // ),
+                  // SizedBox(width: 5),
+                  // Image(
+                  //   image: AssetImage('assets/MGA-logo-new.png'),
+                  //   height: 35,
+                  // ),
+                  // SizedBox(width: 5),
+                  // Container(
+                  //   width: 1,
+                  //   height: 25,
+                  //   color: Colors.white,
+                  // ),
+                  // SizedBox(width: 5),
+                  // Image(
+                  //   image: AssetImage('assets/gamstop.png'),
+                  //   height: 35,
+                  // ),
+                ],
+              ),
             ),
-          ),
-        ))
-      ],
+          ))
+        ],
+      ),
     );
   }
 }

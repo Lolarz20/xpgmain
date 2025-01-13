@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:xpgmain/custom_drawer.dart';
 
 class TopWidget2 extends SliverPersistentHeaderDelegate {
   final GlobalKey<ScaffoldState> keyMain;
@@ -320,8 +321,9 @@ class TopWidget2 extends SliverPersistentHeaderDelegate {
                                 height: height * 0.075),
                           ),
                           IconButton(
-                              onPressed: () =>
-                                  keyMain.currentState?.openDrawer(),
+                              onPressed: () => keyMain.currentState
+                                  ?.showBottomSheet((context) =>
+                                      CustomDrawerContent(keyMain: keyMain)),
                               icon: Icon(Icons.menu))
                         ])),
               ));
@@ -738,8 +740,9 @@ class TopWidget extends StatelessWidget {
                                 height: height * 0.075),
                           ),
                           IconButton(
-                              onPressed: () =>
-                                  keyMain.currentState?.openDrawer(),
+                              onPressed: () => keyMain.currentState
+                                  ?.showBottomSheet((context) =>
+                                      CustomDrawerContent(keyMain: keyMain)),
                               icon: Icon(Icons.menu))
                         ])),
               ));
@@ -766,8 +769,12 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                   children: [
                     Row(
                       children: [
-                        TextButton(
-                          onPressed: () {
+                        InkWell(
+                          splashFactory: NoSplash.splashFactory,
+                          focusColor: Colors.transparent,
+                          splashColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          onTap: () {
                             context.go('/');
                           },
                           child: Image(
@@ -845,7 +852,9 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                               vertical: 20, horizontal: 10),
                           child: Row(
                             children: [
-                              GestureDetector(
+                              InkWell(
+                                onTap: () => launchUrl(Uri.parse(
+                                    'https://mistyrose-woodpecker-280650.hostingersite.com/')),
                                 child: Container(
                                   decoration: BoxDecoration(
                                       color: Colors.blueGrey,
@@ -926,8 +935,9 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                                 height: height * 0.075),
                           ),
                           IconButton(
-                              onPressed: () =>
-                                  keyMain.currentState?.openDrawer(),
+                              onPressed: () => keyMain.currentState
+                                  ?.showBottomSheet((context) =>
+                                      CustomDrawerContent(keyMain: keyMain)),
                               icon: Icon(Icons.menu))
                         ])),
               ));
@@ -976,23 +986,23 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
     if (isHovering) {
       _showDropdown(context, dropdownKey, title);
     } else {
-      Future.delayed(Duration(milliseconds: 100), () {
-        if (!_isHovered.values.any((hovered) => hovered)) {
-          _hideDropdown(dropdownKey);
-        }
-      });
+      //Future.delayed(Duration(milliseconds: 100), () {
+      if (!_isHovered.values.any((hovered) => hovered)) {
+        _hideDropdown(dropdownKey);
+      }
+      // });
     }
   }
 
   void _checkAllMenus(BuildContext context) {
-    Future.delayed(Duration(milliseconds: 100), () {
-      bool anyMenuHovered = _isHovered.values.any((hovered) => hovered);
+    //Future.delayed(Duration(milliseconds: 100), () {
+    bool anyMenuHovered = _isHovered.values.any((hovered) => hovered);
 
-      if (!anyMenuHovered) {
-        print("No menus are hovered, hiding all...");
-        _hideAllMenus();
-      }
-    });
+    if (!anyMenuHovered) {
+      print("No menus are hovered, hiding all...");
+      _hideAllMenus();
+    }
+    //});
   }
 
   void _showDropdown(
