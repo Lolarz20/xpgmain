@@ -111,6 +111,12 @@ class CustomDrawerContent extends StatelessWidget {
                               style: TextStyle(
                                   color: Colors.white, fontFamily: 'pop2')),
                         ),
+                        ListTile(
+                          onTap: () => context.go('/partners'),
+                          title: Text('Partners',
+                              style: TextStyle(
+                                  color: Colors.white, fontFamily: 'pop2')),
+                        ),
                       ],
                     ),
                     Divider(color: Colors.grey[200]),

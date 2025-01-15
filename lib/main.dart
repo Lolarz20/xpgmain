@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +9,7 @@ import 'package:xpgmain/screens/contacts.dart';
 import 'package:xpgmain/screens/games.dart';
 import 'package:xpgmain/screens/games_page.dart';
 import 'package:xpgmain/screens/news.dart';
+import 'package:xpgmain/screens/partners.dart';
 import 'package:xpgmain/screens/solutions.dart';
 import 'package:xpgmain/screens/xpg_baccarat.dart';
 import 'package:xpgmain/splitted_company/about_xpg.dart';
@@ -91,6 +94,10 @@ Future<void> main() async {
         builder: (context, state) => Solutions(0.0),
       ),
       GoRoute(
+        path: '/partners',
+        builder: (context, state) => Partners(),
+      ),
+      GoRoute(
         path: '/solutions/:offset',
         builder: (context, state) {
           final offset = state.pathParameters['offset'];
@@ -112,6 +119,14 @@ Future<void> main() async {
   runApp(MyApp(router: router));
 }
 
+class DragScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+    PointerDeviceKind.touch, // Dotyk (np. na telefonach)
+    PointerDeviceKind.mouse, // Przeciąganie myszką
+  };
+}
+
 class MyApp extends StatelessWidget {
   final GoRouter router;
   const MyApp({super.key, required this.router});
@@ -120,6 +135,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       routerConfig: router,
+      scrollBehavior: DragScrollBehavior(),
       title: 'XPG',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

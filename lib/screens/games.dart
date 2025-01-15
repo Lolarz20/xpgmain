@@ -121,137 +121,148 @@ class GameDetailsPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 16),
 
-                              // Tytuł
                               Padding(
+                                padding: EdgeInsets.symmetric(horizontal: sizingInformation.isDesktop? 100 : 0),
+                                child: Column(
+                                  children: [
+                                Padding(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        sizingInformation.isDesktop ? 75 : 15,
+                                horizontal:
+                                    sizingInformation.isDesktop ? 75 : 15,
                                     vertical: 25),
-                                child: Text(
-                                  game['title'],
-                                  style: TextStyle(
-                                    fontSize:
-                                        sizingInformation.isDesktop ? 50 : 30,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.blueGrey,
-                                    fontFamily: 'pop2',
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 16),
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          children: [
+                                                            Text(
+                                                              game['title'].toString().toUpperCase(),
+                                                              style: TextStyle(
+                                                                fontSize:
+                                                                sizingInformation.isDesktop ? 50 : 30,
+                                                                fontWeight: FontWeight.bold,
+                                                                color: Colors.blueGrey,
+                                                                fontFamily: 'roboto',
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      const SizedBox(height: 16),
 
-                              // Opis
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        sizingInformation.isDesktop ? 150 : 20),
-                                child: Text(
-                                  textAlign: TextAlign.center,
-                                  game['description'],
-                                  style: const TextStyle(
-                                    fontSize: 17.5,
-                                    color: Colors.grey,
-                                    fontFamily: 'pop2',
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 32),
+                                                      // Opis
+                                                      Padding(
+                                                      padding: EdgeInsets.symmetric(
+                                                      horizontal:
+                                                      sizingInformation.isDesktop ? 150 : 20),
+                                                      child: Text(
+                                                      textAlign: TextAlign.left,
+                                                      game['description'],
+                                                      style: const TextStyle(
+                                                      fontSize: 17.5,
+                                                      color: Colors.grey,
+                                                      fontFamily: 'roboto',
+                                                      ),
+                                                      ),
+                                                      ),
+                                                      const SizedBox(height: 32),
 
-                              // Sekcja ciekawostek
-                              if (facts.isNotEmpty) ...[
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: sizingInformation.isDesktop
-                                          ? 75
-                                          : 15),
-                                  child: Text(
-                                    'Interesting Facts',
-                                    style: TextStyle(
-                                      fontSize:
-                                          sizingInformation.isDesktop ? 50 : 30,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blueGrey,
-                                      fontFamily: 'pop2',
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 50),
-                                ...facts.map(
-                                  (fact) => Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        const Icon(
-                                          Icons.circle,
-                                          size: 15,
-                                          color: Colors.blueGrey,
-                                        ),
-                                        const SizedBox(width: 16),
-                                        SizedBox(
-                                          width: width * 0.75,
-                                          child: Text(
-                                            fact,
-                                            style: TextStyle(
-                                              fontSize:
-                                                  sizingInformation.isDesktop
+                                                      // Sekcja ciekawostek
+                                                      if (facts.isNotEmpty) ...[
+                                                      Padding(
+                                                      padding: EdgeInsets.symmetric(
+                                                      horizontal: sizingInformation.isDesktop
+                                                      ? 75
+                                                          : 15),
+                                                      child: Text(
+                                                      'Interesting Facts',
+                                                      style: TextStyle(
+                                                      fontSize:
+                                                      sizingInformation.isDesktop ? 50 : 30,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.blueGrey,
+                                                      fontFamily: 'roboto',
+                                                      ),
+                                                      ),
+                                                      ),
+                                                      const SizedBox(height: 50),
+                                                      ...facts.map(
+                                                      (fact) => Padding(
+                                                      padding: const EdgeInsets.all(8.0),
+                                                      child: Row(
+                                                      mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                      children: [
+                                                      const Icon(
+                                                      Icons.circle,
+                                                      size: 15,
+                                                      color: Colors.blueGrey,
+                                                      ),
+                                                      const SizedBox(width: 16),
+                                                      SizedBox(
+                                                      width: width * 0.75,
+                                                      child: Text(
+                                                      fact,
+                                                      style: TextStyle(
+                                                      fontSize:
+                                                      sizingInformation.isDesktop
                                                       ? 20
-                                                      : 12.5,
-                                              color: Colors.grey,
-                                              fontFamily: 'pop2',
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 32),
-                              ],
+                                                          : 12.5,
+                                                      color: Colors.grey,
+                                                      fontFamily: 'roboto',
+                                                      ),
+                                                      ),
+                                                      ),
+                                                      ],
+                                                      ),
+                                                      ),
+                                                      ),
+                                                      const SizedBox(height: 32),
+                                                      ],
 
-                              // Dodatkowe obrazy
-                              if (additionalImages.isNotEmpty) ...[
-                                Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: sizingInformation.isDesktop
-                                          ? 75
-                                          : 15),
-                                  child: Text(
-                                    'Gallery',
-                                    style: TextStyle(
-                                      fontSize:
-                                          sizingInformation.isDesktop ? 50 : 24,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.blueGrey,
-                                      fontFamily: 'pop2',
-                                    ),
-                                  ),
+                                                      // Dodatkowe obrazy
+                                                      if (additionalImages.isNotEmpty) ...[
+                                                      Padding(
+                                                      padding: EdgeInsets.symmetric(
+                                                      horizontal: sizingInformation.isDesktop
+                                                      ? 75
+                                                          : 15),
+                                                      child: Text(
+                                                      'Gallery',
+                                                      style: TextStyle(
+                                                      fontSize:
+                                                      sizingInformation.isDesktop ? 50 : 24,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.blueGrey,
+                                                      fontFamily: 'roboto',
+                                                      ),
+                                                      ),
+                                                      ),
+                                                      const SizedBox(height: 16),
+                                                      GridView.builder(
+                                                      gridDelegate:
+                                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount: 2),
+                                                      physics: NeverScrollableScrollPhysics(),
+                                                      shrinkWrap: true,
+                                                      itemCount: additionalImages.length,
+                                                      itemBuilder: (context, index) {
+                                                      return Padding(
+                                                      padding: const EdgeInsets.symmetric(
+                                                      horizontal: 50, vertical: 50),
+                                                      child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(8),
+                                                      child: Image.network(
+                                                      additionalImages[index],
+                                                      fit: BoxFit.cover,
+                                                      ),
+                                                      ),
+                                                      );
+                                                      },
+                                                      ),
+                                  ]
+
+                                ],
                                 ),
-                                const SizedBox(height: 16),
-                                GridView.builder(
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2),
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: additionalImages.length,
-                                  itemBuilder: (context, index) {
-                                    return Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 50, vertical: 50),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(8),
-                                        child: Image.network(
-                                          additionalImages[index],
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ],
-                            ],
+                              )]
                           ),
                         ),
                       );

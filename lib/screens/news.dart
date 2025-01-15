@@ -175,10 +175,10 @@ class ArticleDetailPage extends StatelessWidget {
                                       article['title'],
                                       style: TextStyle(
                                           fontSize: sizingInformation.isDesktop
-                                              ? 50
-                                              : 24,
+                                              ? 30
+                                              : 20,
                                           color: Colors.white,
-                                          fontFamily: 'pop'),
+                                          fontFamily: 'pop2'),
                                     ),
                                     SizedBox(height: 15),
                                     Container(
@@ -191,6 +191,7 @@ class ArticleDetailPage extends StatelessWidget {
                                         style: TextStyle(
                                             color: Colors.white,
                                             fontFamily: 'pop',
+                                            fontSize: 12.5,
                                             fontStyle: FontStyle.italic))
                                   ],
                                 ),
@@ -198,31 +199,33 @@ class ArticleDetailPage extends StatelessWidget {
                             ))
                           ],
                         ),
-                        const SizedBox(height: 16),
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: sizingInformation.isDesktop ? 75 : 16,
-                              vertical: 25),
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            article['title'],
-                            style: const TextStyle(
-                                fontSize: 35,
-                                color: Colors.blueGrey,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'pop2'),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: sizingInformation.isDesktop ? 250 : 16,
-                          ),
-                          child: Text(
-                            textAlign: TextAlign.center,
-                            article['description'],
-                            style: const TextStyle(
-                                fontSize: 17.5, fontFamily: 'pop2'),
+                          padding: EdgeInsets.symmetric(horizontal: sizingInformation.isDesktop? 400 : 25),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 16),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 25),
+                                child: Text(
+                                  textAlign: TextAlign.start,
+                                  article['title'],
+                                  style: const TextStyle(
+                                      fontSize: 30,
+                                      color: Colors.blueGrey,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'pop2'),
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              Text(
+                                textAlign: TextAlign.start,
+                                article['description'],
+                                style: const TextStyle(
+                                    fontSize: 17.5, fontFamily: 'roboto'),
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(height: 50),

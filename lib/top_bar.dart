@@ -903,7 +903,7 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                 ),
               )
             : SizedBox(
-                height: height * 0.075,
+                height: height * 0.09,
                 width: width,
                 child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 10),
@@ -932,7 +932,7 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                                 },
                                 image: NetworkImage(
                                     'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/casinoAll%2Fxpg.png?alt=media&token=c2c3a5ef-55cc-41d0-9498-fe0a7b22118d'),
-                                height: height * 0.075),
+                                height: height * 0.09),
                           ),
                           IconButton(
                               onPressed: () => keyMain.currentState
@@ -1239,6 +1239,7 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
                     _buildMenuItem(context, "Mobile Solutions"),
                     _buildMenuItem(context, "Private Tables"),
                     _buildMenuItem(context, "White Labels"),
+                    _buildMenuItem(context, "Partners")
                   ],
                 ),
               ),
@@ -1272,6 +1273,9 @@ class CustomHeaderDelegate extends SliverPersistentHeaderDelegate {
         }
         if (title == 'White Labels') {
           context.go('/white-labels');
+        }
+        if (title == 'Partners') {
+          context.go('/partners');
         }
         _hideAllMenus();
       },

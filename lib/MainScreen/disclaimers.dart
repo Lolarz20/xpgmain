@@ -12,42 +12,42 @@ class Disclaimers extends StatelessWidget {
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  InkWell(
-                    onTap: () => launchUrl(
-                        Uri.parse('https://www.gambleaware.org/home/')),
-                    child: Image(
-                        image: AssetImage('assets/begambleaware.png'),
-                        height: 30),
-                  ),
-                  SizedBox(width: 25),
-                  InkWell(
-                    onTap: () => launchUrl(Uri.parse('https://ecogra.org/')),
-                    child: Image(
-                        image: AssetImage('assets/ecogra.png'), height: 30),
-                  ),
-                  SizedBox(width: 25),
-                  InkWell(
-                    onTap: () =>
-                        launchUrl(Uri.parse('https://www.gamstop.co.uk/')),
-                    child: Image(
-                        image: AssetImage('assets/gamstop.png'), height: 30),
-                  ),
-                  SizedBox(width: 25),
-                  InkWell(
-                    onTap: () =>
-                        launchUrl(Uri.parse('https://www.mga.org.mt/')),
-                    child: Image(
-                        image: AssetImage('assets/MGA-logo-new.png'),
-                        height: 30),
-                  ),
-                  SizedBox(width: 25),
-                  InkWell(
-                    onTap: () => launchUrl(
-                        Uri.parse('https://www.gamblingcommission.gov.uk/')),
-                    child:
-                        Image(image: AssetImage('assets/ukgc.png'), height: 30),
-                  ),
-                  SizedBox(width: 25),
+                  // InkWell(
+                  //   onTap: () => launchUrl(
+                  //       Uri.parse('https://www.gambleaware.org/home/')),
+                  //   child: Image(
+                  //       image: AssetImage('assets/begambleaware.png'),
+                  //       height: 30),
+                  // ),
+                  // SizedBox(width: 25),
+                  // InkWell(
+                  //   onTap: () => launchUrl(Uri.parse('https://ecogra.org/')),
+                  //   child: Image(
+                  //       image: AssetImage('assets/ecogra.png'), height: 30),
+                  // ),
+                  // SizedBox(width: 25),
+                  // InkWell(
+                  //   onTap: () =>
+                  //       launchUrl(Uri.parse('https://www.gamstop.co.uk/')),
+                  //   child: Image(
+                  //       image: AssetImage('assets/gamstop.png'), height: 30),
+                  // ),
+                  // SizedBox(width: 25),
+                  // InkWell(
+                  //   onTap: () =>
+                  //       launchUrl(Uri.parse('https://www.mga.org.mt/')),
+                  //   child: Image(
+                  //       image: AssetImage('assets/MGA-logo-new.png'),
+                  //       height: 30),
+                  // ),
+                  // SizedBox(width: 25),
+                  // InkWell(
+                  //   onTap: () => launchUrl(
+                  //       Uri.parse('https://www.gamblingcommission.gov.uk/')),
+                  //   child:
+                  //       Image(image: AssetImage('assets/ukgc.png'), height: 30),
+                  // ),
+                  // SizedBox(width: 25),
                   InkWell(
                     onTap: () => launchUrl(Uri.parse(
                         'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/iTech.pdf?alt=media&token=36477cf8-ab4d-45b5-a31f-eb827a9438ae')),
@@ -61,52 +61,52 @@ class Disclaimers extends StatelessWidget {
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        onTap: () => launchUrl(
-                            Uri.parse('https://www.gambleaware.org/home/')),
-                        child: Image(
-                            image: AssetImage('assets/begambleaware.png'),
-                            height: 25),
-                      ),
-                      SizedBox(width: 25),
-                      InkWell(
-                        onTap: () =>
-                            launchUrl(Uri.parse('https://ecogra.org/')),
-                        child: Image(
-                            image: AssetImage('assets/ecogra.png'), height: 25),
-                      ),
-                      SizedBox(width: 25),
-                      InkWell(
-                        onTap: () =>
-                            launchUrl(Uri.parse('https://www.gamstop.co.uk/')),
-                        child: Image(
-                            image: AssetImage('assets/gamstop.png'),
-                            height: 25),
-                      ),
-                      SizedBox(width: 25),
-                      InkWell(
-                        onTap: () =>
-                            launchUrl(Uri.parse('https://www.mga.org.mt/')),
-                        child: Image(
-                            image: AssetImage('assets/MGA-logo-new.png'),
-                            height: 25),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.center,
+                  //   children: [
+                  //     InkWell(
+                  //       onTap: () => launchUrl(
+                  //           Uri.parse('https://www.gambleaware.org/home/')),
+                  //       child: Image(
+                  //           image: AssetImage('assets/begambleaware.png'),
+                  //           height: 25),
+                  //     ),
+                  //     SizedBox(width: 25),
+                  //     InkWell(
+                  //       onTap: () =>
+                  //           launchUrl(Uri.parse('https://ecogra.org/')),
+                  //       child: Image(
+                  //           image: AssetImage('assets/ecogra.png'), height: 25),
+                  //     ),
+                  //     SizedBox(width: 25),
+                  //     InkWell(
+                  //       onTap: () =>
+                  //           launchUrl(Uri.parse('https://www.gamstop.co.uk/')),
+                  //       child: Image(
+                  //           image: AssetImage('assets/gamstop.png'),
+                  //           height: 25),
+                  //     ),
+                  //     SizedBox(width: 25),
+                  //     InkWell(
+                  //       onTap: () =>
+                  //           launchUrl(Uri.parse('https://www.mga.org.mt/')),
+                  //       child: Image(
+                  //           image: AssetImage('assets/MGA-logo-new.png'),
+                  //           height: 25),
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(height: 25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      InkWell(
-                        onTap: () => launchUrl(Uri.parse(
-                            'https://www.gamblingcommission.gov.uk/')),
-                        child: Image(
-                            image: AssetImage('assets/ukgc.png'), height: 25),
-                      ),
-                      SizedBox(width: 25),
+                      // InkWell(
+                      //   onTap: () => launchUrl(Uri.parse(
+                      //       'https://www.gamblingcommission.gov.uk/')),
+                      //   child: Image(
+                      //       image: AssetImage('assets/ukgc.png'), height: 25),
+                      // ),
+                      // SizedBox(width: 25),
                       InkWell(
                         onTap: () => launchUrl(Uri.parse(
                             'https://firebasestorage.googleapis.com/v0/b/a-lunch-e6ccd.firebasestorage.app/o/iTech.pdf?alt=media&token=36477cf8-ab4d-45b5-a31f-eb827a9438ae')),
