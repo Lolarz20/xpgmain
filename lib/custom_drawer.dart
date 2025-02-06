@@ -62,12 +62,17 @@ class CustomDrawerContent extends StatelessWidget {
                     ExpansionTile(
                       collapsedIconColor: Color.fromRGBO(93, 198, 201, 1),
                       backgroundColor: Color.fromRGBO(93, 198, 201, 1),
-                      title: Text('WHO WE ARE',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22.5,
-                            fontFamily: 'pop2',
-                          )),
+                      title: Padding(
+                        padding: const EdgeInsets.only(left: 50),
+                        child: Center(
+                          child: Text('WHO WE ARE',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 22.5,
+                                  fontFamily: 'pop2',
+                                  fontWeight: FontWeight.w900)),
+                        ),
+                      ),
                       children: [
                         ListTile(
                           onTap: () => context.go('/about-xpg'),
@@ -119,16 +124,21 @@ class CustomDrawerContent extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Divider(color: Colors.grey[200]),
+                    CustomDivider(),
                     ExpansionTile(
                       collapsedIconColor: Color.fromRGBO(93, 198, 201, 1),
                       backgroundColor: Color.fromRGBO(93, 198, 201, 1),
-                      title: Text('OUR GAMES',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22.5,
-                            fontFamily: 'pop2',
-                          )),
+                      title: Padding(
+                        padding: const EdgeInsets.only(left: 50),
+                        child: Center(
+                          child: Text('OUR GAMES',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 22.5,
+                                fontFamily: 'pop2',
+                              )),
+                        ),
+                      ),
                       children: [
                         StreamBuilder<QuerySnapshot>(
                           stream: FirebaseFirestore.instance
@@ -166,29 +176,31 @@ class CustomDrawerContent extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Divider(color: Colors.grey[200]),
+                    CustomDivider(),
                     ListTile(
-                      title: const Text('CAREERS',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 22.5,
-                            fontFamily: 'pop2',
-                          )),
+                      title: Center(
+                        child: const Text('CAREERS',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22.5,
+                              fontFamily: 'pop2',
+                            )),
+                      ),
                       onTap: () =>
                           launchUrl(Uri.parse('https://mltsolution.bg/')),
                     ),
-                    Divider(color: Colors.grey[200]),
+                    CustomDivider(),
                     ListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text('NEWS',
+                      title: Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Center(
+                          child: const Text('NEWS',
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 22.5,
                                 fontFamily: 'pop2',
                               )),
-                        ],
+                        ),
                       ),
                       onTap: () => context.go('/articles'),
                     ),
@@ -240,5 +252,56 @@ class CustomDrawerContent extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class CustomDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return CustomPaint(
+      size: Size(double.infinity, 20), // Szerokość dividera
+      painter: DividerPainter(),
+    );
+  }
+}
+
+class DividerPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final linePaint = Paint()
+      ..color = Colors.grey[200]! // Kolor linii
+      ..strokeWidth = 1; // Grubość linii
+
+    final diamondPaint = Paint()
+      ..color = Color.fromRGBO(93, 198, 201, 1); // Kolor diamentu
+
+    // Rysowanie lewej linii
+    canvas.drawLine(
+      Offset(0, size.height / 2), // Początek linii
+      Offset(size.width / 2 - 10, size.height / 2), // Koniec przed diamentem
+      linePaint,
+    );
+
+    // Rysowanie prawej linii
+    canvas.drawLine(
+      Offset(size.width / 2 + 10, size.height / 2), // Początek za diamentem
+      Offset(size.width, size.height / 2), // Koniec linii
+      linePaint,
+    );
+
+    // Rysowanie diamentu
+    final diamondPath = Path()
+      ..moveTo(size.width / 2, size.height / 2 - 5) // Górny punkt
+      ..lineTo(size.width / 2 - 5, size.height / 2) // Lewy punkt
+      ..lineTo(size.width / 2, size.height / 2 + 5) // Dolny punkt
+      ..lineTo(size.width / 2 + 5, size.height / 2) // Prawy punkt
+      ..close(); // Zamyka ścieżkę
+
+    canvas.drawPath(diamondPath, diamondPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false; // Malowanie nie będzie się zmieniać
   }
 }
